@@ -1,0 +1,22 @@
+version: "3"
+services:
+  pg:
+    image: postgres
+    environment:
+      - POSTGRES_DB=pagarme
+      - POSTGRES_USER=pagarme_user
+      - POSTGRES_PASSWORD=senha_secreta
+    volumes:
+      - "./data/postgres:/var/lib/postgresql/data"
+    ports:
+      - 5432:5432
+  app:
+    build: .
+    command: npm run dev
+    volumes:
+      - .:/usr/src/app/
+      - /usr/src/app/node_modules
+    ports: 
+      - 8000:8000
+    depends_on:
+      - pg
